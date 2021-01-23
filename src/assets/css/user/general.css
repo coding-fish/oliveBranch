@@ -1,0 +1,66 @@
+body{
+    background-color: rgb(240, 241, 244);
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+}
+
+.el-link.el-link--default{
+    color:#303133;
+}
+.el-link.el-link--default:hover {
+    color: #ce3524;
+}
+
+.el-tabs__active-bar{
+  background-color:#df5747;
+}
+.el-tabs__item.is-active {
+    color: #df5747;
+}
+.el-tabs__item:hover {
+    color: #df5747;
+    cursor: pointer;
+}
+.el-radio__inner:hover {
+    border-color: #df5747;
+}
+.el-radio__input.is-checked+.el-radio__label {
+    color: #df5747;
+}
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: #df5747;
+    background: #df5747;
+}
+.el-input.is-active .el-input__inner, .el-input__inner:focus {
+    border-color: #df5747;
+    /* outline: 0; */
+}
+.el-button--primary {
+    color: #FFF;
+    background-color:#df5747;
+    border-color: #f9ae8f;
+}
+.el-button--primary:hover {
+    background-color: #e07a6e;
+    border-color: #f9ae8f;
+}
+.el-button--default:hover {
+    color: #df5747;
+    border-color: #df5747;
+    background-color: #f8e2d7
+}
+.el-button--primary:active{
+    background:#e24533;
+}
+.el-button--primary:focus{
+    background:#e24533;
+    border-color: #f9ae8f;
+}
+.el-button--default:active{
+    background:#f7ceb9;
+}
+.el-button--default:focus{
+    color: #df5747;
+    border-color: #f3ccba;
+    background-color: #f7eee9
+}
