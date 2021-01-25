@@ -4,24 +4,14 @@
         <new-navigation></new-navigation>
         <el-container>
             <el-main style="text-align: center;">
-                <div style="height: 280px;">
-                    <img src="../../assets/logoT.png" height="320" width="350"/></div>
-                <div style="margin-top: 15px; margin-bottom: 90px;" id="searchInput">
-                    <el-input placeholder="请输入内容" v-model="input3" style="width: 900px;">
-                        <el-select v-model="value" slot="prepend" placeholder="标题" style="width: 140px;">
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                <div @click="getType(item.label)">{{item.label}}</div>
-                            </el-option>
-                        </el-select>
-                        <el-button slot="append" icon="el-icon-search" @click="sendSearch(input3, type)"></el-button>
-                    </el-input>
-                    <el-link type="danger" :underline="false" style="margin-left: 10px; font-size: 16px"
-                             @click="gotoCompSearch()">高级检索
-                    </el-link>
+<!--                <div style="height: 50px;">-->
+<!--                    <img src="../../assets/logoT.png" height="32" width="35"/></div>-->
+                <div style="margin-top: 5px; margin-bottom: 10px; margin-left: 100px; margin-right: 100px" id="">
+                  <el-carousel indicator-position="outside">
+                    <el-carousel-item v-for="item in 4" :key="item">
+                      <h3>课程图片{{ item }}</h3>
+                    </el-carousel-item>
+                  </el-carousel>
                 </div>
                 <el-row style="margin-bottom: 60px">
                     <!--                卡片-1-左-->
@@ -48,64 +38,66 @@
                             </el-card>
                         </div>
                     </el-col>
-                    <!--                卡片-1-中-->
-                    <el-col :span="7" :offset="1">
-                        <div>
-                            <el-card shadow="hover" class="box-card" style="width: 420px; height: 340px">
-                                <div slot="header" class="clearfix">
-                                    <span style="float: left">热门专家</span>
-                                </div>
-                                <div style="width: 380px; height: 240px">
-                                    <div v-for="lib in library" style="width: 380px; height: 50px; margin-top: -6px">
-                                        <svg class="icon"
-                                             style="float: left;margin-top: 5px;margin-left: 5px; font-size: 30px">
-                                            <use xlink:href="#icon-tangguo"></use>
-                                        </svg>
-                                        <ul style="float:right; width: 300px; margin-top: 7px">
-                                            <el-link v-bind:href="'/author?author_id='+lib.id" style="float: left">{{lib.name}}</el-link>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </el-card>
-                        </div>
-                    </el-col>
-                    <!--                卡片-1-右-->
-                    <el-col :span="8">
-                        <div>
-                            <el-card shadow="hover" class="box-card" style="width: 420px; height: 340px">
-                                <div slot="header" class="clearfix">
-                                    <span style="float: left">热门帖子</span>
-                                </div>
-                                <div v-for="sci in science" class="text item"
-                                     style="width: 380px; height: 20px;margin-top: 3% ">
-                                    <svg class="icon"
-                                         style="float: left;width: 40px;height: 35px; margin: -2px 0px 15px 0px;">
-                                        <use xlink:href="#icon-tianshi"></use>
-                                    </svg>
-                                    <div style="float:left; width: 300px;">
-                                        <el-link v-bind:href="'/BlogItem/'+sci.userid+'/'+sci.blogid">{{sci.blogname}}
-                                        </el-link>
-                                    </div>
-                                </div>
-                            </el-card>
-                        </div>
-                    </el-col>
+<!--                    &lt;!&ndash;                卡片-1-中&ndash;&gt;-->
+<!--                    <el-col :span="7" :offset="1">-->
+<!--                        <div>-->
+<!--                            <el-card shadow="hover" class="box-card" style="width: 420px; height: 340px">-->
+<!--                                <div slot="header" class="clearfix">-->
+<!--                                    <span style="float: left">热门专家</span>-->
+<!--                                </div>-->
+<!--                                <div style="width: 380px; height: 240px">-->
+<!--                                    <div v-for="lib in library" style="width: 380px; height: 50px; margin-top: -6px">-->
+<!--                                        <svg class="icon"-->
+<!--                                             style="float: left;margin-top: 5px;margin-left: 5px; font-size: 30px">-->
+<!--                                            <use xlink:href="#icon-tangguo"></use>-->
+<!--                                        </svg>-->
+<!--                                        <ul style="float:right; width: 300px; margin-top: 7px">-->
+<!--                                            <el-link v-bind:href="'/author?author_id='+lib.id" style="float: left">{{lib.name}}</el-link>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </el-card>-->
+<!--                        </div>-->
+<!--                    </el-col>-->
+<!--                    &lt;!&ndash;                卡片-1-右&ndash;&gt;-->
+<!--                    <el-col :span="8">-->
+<!--                        <div>-->
+<!--                            <el-card shadow="hover" class="box-card" style="width: 420px; height: 340px">-->
+<!--                                <div slot="header" class="clearfix">-->
+<!--                                    <span style="float: left">热门帖子</span>-->
+<!--                                </div>-->
+<!--                                <div v-for="sci in science" class="text item"-->
+<!--                                     style="width: 380px; height: 20px;margin-top: 3% ">-->
+<!--                                    <svg class="icon"-->
+<!--                                         style="float: left;width: 40px;height: 35px; margin: -2px 0px 15px 0px;">-->
+<!--                                        <use xlink:href="#icon-tianshi"></use>-->
+<!--                                    </svg>-->
+<!--                                    <div style="float:left; width: 300px;">-->
+<!--                                        <el-link v-bind:href="'/BlogItem/'+sci.userid+'/'+sci.blogid">{{sci.blogname}}-->
+<!--                                        </el-link>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </el-card>-->
+<!--                        </div>-->
+<!--                    </el-col>-->
                 </el-row>
             </el-main>
             <el-footer>
-
             </el-footer>
         </el-container>
+        <NewBottom></NewBottom>
     </div>
 
 </template>
 
 <script>
     import NewNavigation from '../navigatorandsearch/NewNavigation';
+    import NewBottom from "@/views/navigatorandsearch/NewBottom";
 
     export default {
         name: "Search",
         components: {
+          NewBottom,
             NewNavigation
         },
         data() {
@@ -119,30 +111,6 @@
                 }, {
                     value: '选项2',
                     label: '关键词'
-                }, {
-                    value: '选项3',
-                    label: '作者'
-                }, {
-                    value: '选项4',
-                    label: '机构'
-                }, {
-                    value: '选项5',
-                    label: '领域'
-                }, {
-                    value: '选项6',
-                    label: '刊物'
-                }, {
-                    value: '选项7',
-                    label: '摘要'
-                }, {
-                    value: '选项8',
-                    label: 'ISSN'
-                }, {
-                    value: '选项9',
-                    label: 'ISBN'
-                }, {
-                    value: '选项10',
-                    label: 'DOI'
                 }],
                 value: '',
                 ranks: [{
@@ -237,6 +205,7 @@
 
 <style>
     body {
+        /*background-color: whitesmoke;*/
         background-image: url('../../assets/image/user/image/login-back.png');
     }
 </style>
@@ -249,21 +218,21 @@
         border-right-width: 0;
     }
     /deep/ .el-input-group>.el-input__inner{
-        border:2px solid #df5747;
+        border:2px solid #005bac;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,.2);
         border-right-width: 0;
         border-left-width: 0;
     }
     /deep/ .el-input-group__append{
         background-color:#FFF;
-        border:2px solid #df5747;
+        border:2px solid #005bac;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,.2);
         border-left-width: 0;
     }
 }
 
     /deep/ .el-carousel__item[data-v-1a1d373c]:nth-child(2n+1) {
-        background-color: #df5747;
+        background-color: #005bac;
         color: white;
     }
 
@@ -346,18 +315,17 @@
     }
 
     .el-carousel__item h3 {
-        color: mediumpurple;
-        font-size: 14px;
-        opacity: 0.75;
-        line-height: 200px;
-        margin: 0;
+      color: #475669;
+      font-size: 18px;
+      opacity: 0.75;
+      line-height: 300px;
+      margin: 0;
     }
 
     .el-carousel__item:nth-child(2n) {
-        background-color: #99a9bf;
+      background-color: #99a9bf;
     }
 
     .el-carousel__item:nth-child(2n+1) {
-        background-color: #d3dce6;
-    }
-</style>
+      background-color: #d3dce6;
+}</style>
