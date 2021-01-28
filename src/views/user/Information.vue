@@ -229,7 +229,7 @@ export default {
           this.formLabelAlign.email=res.data.email
           this.formLabelAlign.inst=res.data.org
           this.formLabelAlign.gender=res.data.gender
-          this.formLabelAlign.title=res.data.postion
+          this.formLabelAlign.title=res.data.position
           this.formLabelAlign.phone=res.data.phone
           this.formLabelAlign.bio=res.data.bio
           this.is_author=res.data.is_associated
@@ -327,7 +327,7 @@ export default {
           this.dialogVisible=true
         }else{
           this.$router.push({
-            path:'/author',
+            path:'/team',
             query:{
               author_id:this.author_id,
             }

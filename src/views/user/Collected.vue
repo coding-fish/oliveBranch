@@ -85,9 +85,9 @@ export default {
         // {
         //   paper_id:2,
         //   title:"Paper2",
-        //   author:[
+        //   team:[
         //     {id:1, name:"Zhang Manwei"},
-        //     {id:2, name:"Another author"},
+        //     {id:2, name:"Another team"},
         //   ],
         //   source:"Journal2",
         // }
@@ -96,7 +96,7 @@ export default {
         // {
         //   blogid:1,
         //   title:"Blog1 : Today's weather : snow storm",
-        //   author:"Zhang Manwei",
+        //   team:"Zhang Manwei",
         //   authorid:1,
         //   avatar:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         //   content:"This is a very rough blog.",
@@ -115,7 +115,7 @@ export default {
     },
     toAuthor(authorid) {
       this.$router.push({
-        path:'/author',
+        path:'/team',
         query:{
           author_id:authorid,
         }
@@ -123,7 +123,7 @@ export default {
     },
     jump_to_paper(paper_id){
       this.$router.push({
-        path: '/paper',
+        path: '/course',
         query: {
           paper_id: this.$Base64.encode(JSON.stringify(paper_id)),
         }
@@ -150,13 +150,13 @@ export default {
           var blogItem = new Object()
           //   blogid:2,
           //   title:"Blog2",
-          //   author:"Another author",
+          //   team:"Another team",
           //   authorid:2,
           //   avatar:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
           //   content:"This is an another very rough blog.",
           //   created:'',
 
-          // author: "aaa"
+          // team: "aaa"
           // authorid: ""
           // bio: ""
           // blogid: 12
@@ -277,9 +277,9 @@ export default {
           // this.$set(that.p_collected,i,paperItem)
           // paper_id:2,
           //   title:"Paper2",
-          //   author:[
+          //   team:[
           //     {id:1, name:"Zhang Manwei"},
-          //     {id:2, name:"Another author"},
+          //     {id:2, name:"Another team"},
           //   ],
           //   source:"Journal2",
         }

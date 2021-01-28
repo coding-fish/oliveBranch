@@ -147,7 +147,7 @@
 							.then(res => {
 								if(res.data.is_associated) {
 									this.$router.push({
-										path: '/author',
+										path: '/team',
 										query: {
 											author_id: res.data.author_id
 										},
@@ -235,7 +235,7 @@
 							message: '认领成功',
 						})
 						this.$router.push({
-							path: '/author',
+							path: '/team',
 							query: {
 								author_id: author_id,
 								pagenumber: 1,
@@ -252,7 +252,7 @@
 			},
 			jumpToPortal(author_id) {
 				this.$router.push({
-					path: '/author',
+					path: '/team',
 					query: {
 						author_id: author_id,
 					}

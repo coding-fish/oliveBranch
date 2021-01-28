@@ -147,7 +147,7 @@ export default {
     },
     jumpToPortal(author_id){
       this.$router.push({
-        path:'/author',
+        path:'/team',
         query:{
           author_id:author_id,
         }

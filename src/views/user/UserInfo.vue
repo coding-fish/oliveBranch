@@ -121,7 +121,7 @@ export default {
         // {
         //   id:123,
         //   name:"A blog published by whatever",
-        //   author:"Zhang Manwei",
+        //   team:"Zhang Manwei",
         //   avatar:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         //   content:"A blog published by whatever A blog published by whatever A blog published by whatever A blog published by whatever A blog published by whatever A blog published by whatever ",
         //   date:"2020年1月1日",
@@ -195,7 +195,7 @@ export default {
           var blogItem = new Object()
           //   id:123,
           //   name:"A blog published by whatever",
-          //   author:"Zhang Manwei",
+          //   team:"Zhang Manwei",
           //   avatar:"https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
           //   content:"A blog published by whatever A blog published by whatever A blog published by whatever A blog published by whatever A blog published by whatever A blog published by whatever ",
           //   date:"2020年1月1日",
@@ -203,7 +203,7 @@ export default {
           //   likenum:12,
           //   tipnum:12
 
-          // author: "aaa"
+          // team: "aaa"
           // authorid: ""
           // bio: ""
           // blogid: 12

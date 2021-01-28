@@ -4,23 +4,31 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path:'/NewNavigation',
-    name:'NewNavigation',
-    component: () => import('../views/navigatorandsearch/NewNavigation'),
-  },
-    //主页
+  // {
+  //   path:'/NewNavigation',
+  //   name:'NewNavigation',
+  //   component: () => import('../views/navigatorandsearch/NewNavigation'),
+  // },
+    //检索
   {
     path:'/search',
     name:'Search',
     component: () => import('../views/navigatorandsearch/Search')
   },
-    //用户相关
+  {
+    path: '/Searching',
+    name: 'Searching',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/navigatorandsearch/Searching.vue')
+  },
+    //主页
   {
     path: '/',
     name: 'Home',
     component: () => import('../views/navigatorandsearch/Search'),
-    redirect: "/search"
+    // redirect: "/search"
   },
   {
     path: '/login',
@@ -82,34 +90,34 @@ const routes = [
     component: ()=> import('../views/user/UserInfo.vue'),
   },
 
-    //门户
+    //团队门户
   {
-    path: '/author',
-    name: 'Author',
+    path: '/team',
+    name: 'Team',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/author/Author.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/team/Team.vue')
   },
 
-    //学术成果
+    //课程详情
   {
-    path: '/paper',
+    path: '/course',
     name: 'Paper',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/paper/Paper')
+    component: () => import(/* webpackChunkName: "about" */ '../views/course/Course')
   },
-    //要认领的门户列表
-  {
-    path: '/authoritem',
-    name: 'AuthorItem',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/author/AuthorItem')
-  },
+  //   //要认领的门户列表
+  // {
+  //   path: '/authoritem',
+  //   name: 'AuthorItem',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/team/AuthorItem')
+  // },
     //管理员处理举报
   {
     path: '/blogreported',
@@ -170,19 +178,11 @@ const routes = [
     name: "BlogEdit",
     component: () => import("../views/blog/blogEdit.vue")
   },
-  {
-    path: '/Searching',
-    name: 'Searching',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('../views/navigatorandsearch/Searching.vue')
-  },
-  {
-    path: '/AdvancedSearch',
-    name: 'AdvancedSearch',
-    component: () => import('../views/navigatorandsearch/AdvancedSearch.vue')
-  },
+  // {
+  //   path: '/AdvancedSearch',
+  //   name: 'AdvancedSearch',
+  //   component: () => import('../views/navigatorandsearch/AdvancedSearch.vue')
+  // },
   {
     path:"/changefile/:userid/:blogid",
     name: "ChangeFile",

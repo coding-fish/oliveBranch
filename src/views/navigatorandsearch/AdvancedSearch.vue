@@ -1163,7 +1163,7 @@
             },
             jumpToPaper(Paper_id){
                 this.$router.push({
-                    path:'/paper',
+                    path:'/course',
                     query: {
                         paper_id: Paper_id
                     }

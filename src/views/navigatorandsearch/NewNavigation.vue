@@ -12,15 +12,15 @@
       <div style="float: left">
         <img @click="gotoMain" class="navigationlogo" src="../../assets/logoT02-white.png" height="60" width="160"/>
       </div>
-      <el-menu-item index="1" style="margin-left: 6rem; font-size: large" @click="gotoMain">首页</el-menu-item>
-      <el-menu-item index="2" style="margin-left: 2rem; font-size: large" @click="gotoDoor">课程</el-menu-item>
-      <el-menu-item index="3" style="margin-left: 2rem; font-size: large" @click="gotoBlog">论坛</el-menu-item>
-      <el-menu-item index="4" style="margin-left: 2rem; font-size: large" @click="gotoMsgCollection">
+      <el-menu-item index="1" style="margin-left: 1rem; font-size: large" @click="gotoMain">首页</el-menu-item>
+      <el-menu-item index="2" style="margin-left: 0rem; font-size: large" @click="gotoDoor">课程</el-menu-item>
+      <el-menu-item index="3" style="margin-left: 0rem; font-size: large" @click="gotoBlog">论坛</el-menu-item>
+      <el-menu-item index="4" style="margin-left: 0rem; font-size: large" @click="gotoMsgCollection">
         消息中心
         <el-badge :value="totalMsgNum">
         </el-badge>
       </el-menu-item>
-      <el-submenu index="5" style="margin-left: 2rem;font-size: large" v-show="admin">
+      <el-submenu index="5" style="margin-left: 0rem;font-size: large" v-show="admin">
         <template slot="title" style="font-size: large">后台管理</template>
         <el-menu-item index="5-1" @click="gotoReported">处理举报</el-menu-item>
         <el-menu-item index="5-2" @click="gotoLog">查看日志</el-menu-item>
@@ -32,7 +32,7 @@
       <!--                <el-menu-item index="6-1" @click="dialogFormVisible_author = true">更新作者信息</el-menu-item>-->
       <!--                <el-menu-item index="6-2" @click="dialogFormVisible_paper = true">更新论文信息</el-menu-item>-->
       <!--            </el-submenu>-->
-      <el-menu-item style="display: block;float: top" @click="sendSearch(input1)">
+      <el-menu-item style="display: block;float: top;margin-left: 28rem;" @click="sendSearch(input1)">
         <div style="margin-top: 1px; margin-bottom: 90px;" id="searchInput">
           <div class="demo-input-suffix">
             <el-input
