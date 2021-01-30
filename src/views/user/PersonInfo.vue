@@ -11,7 +11,7 @@
             default-active=activeIndex
             class="el-menu-vertical-demo"
             @select="handleSelect"
-            background-color="#df5747"
+            background-color="#0f72ca"
             text-color="#fff"
             active-text-color="rgb(255,221,0)">
             <el-menu-item index="/personinfo/information">

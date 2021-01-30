@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div>
       <el-row>
         <el-col :span="18">
@@ -41,9 +40,8 @@
                         <div class="flex6">
                           <el-image style="width:30px;height:30px;border-radius:30px" :src="item.avatar"
                                     fit="cover"></el-image>
-                          <el-link class="blog-title " :underline="false" style="padding-left:15px">{{
-                              item.username
-                            }}
+                          <el-link class="blog-title " :underline="false" style="padding-left:15px">
+                            {{item.username }}
                           </el-link>
                         </div>
                       </el-link>
@@ -98,10 +96,12 @@
 
 <script>
 import NewNavigation from "../../navigatorandsearch/NewNavigation";
+import NewBottom from "@/views/navigatorandsearch/NewBottom";
 // @ is an alias to /src
 export default {
   name: "BlogDesktop",
   components: {
+    NewBottom,
     NewNavigation,
   },
   data() {
@@ -175,7 +175,7 @@ export default {
   methods: {
     formatDate(date) {
       Date.prototype.format = function (fmt) {
-        var o = {
+        let o = {
           "M+": this.getMonth() + 1,                 //月份
           "d+": this.getDate(),                    //日
           "h+": this.getHours(),                   //小时
@@ -187,7 +187,7 @@ export default {
         if (/(y+)/.test(fmt)) {
           fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
         }
-        for (var k in o) {
+        for (let k in o) {
           if (new RegExp("(" + k + ")").test(fmt)) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
           }
@@ -235,7 +235,7 @@ export default {
 
 <style>
 body {
-  background-color: rgb(240, 241, 244, 100);
+  background-color: rgba(240, 241, 244, 100);
   height: 100%;
   display: block;
 }
@@ -246,7 +246,7 @@ body {
 }
 
 h1 {
-  color: #df5746;
+  color: #0f72ca;
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -1px;
@@ -264,10 +264,10 @@ h1 {
   text-align: left;
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  -webkit-transform: rotateX(11deg) rotateY(16.5deg);
-  transform: rotateX(11deg) rotateY(16.5deg);
+  /*-webkit-transform-style: preserve-3d;*/
+  /*transform-style: preserve-3d;*/
+  /*-webkit-transform: rotateX(11deg) rotateY(16.5deg);*/
+  /*transform: rotateX(11deg) rotateY(16.5deg);*/
   min-width: 50px;
 }
 
@@ -284,7 +284,6 @@ h1 {
   -webkit-transform: translatez(35px);
   transform: translatez(35px);
   transition: -webkit-transform 200ms ease-out;
-  transition: transform 200ms ease-out;
   transition: transform 200ms ease-out, -webkit-transform 200ms ease-out;
   width: 100px;
   text-align: center;
