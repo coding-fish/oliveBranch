@@ -17,19 +17,23 @@
             active-text-color="#f9ae8f"
         >
           <el-menu-item index="1" style="margin-left: 0rem; font-size: large" @click="gotoMain">首页</el-menu-item>
-          <el-menu-item index="2" style="margin-left: 0rem; font-size: large" @click="gotoDoor">课程</el-menu-item>
+<!--          <el-menu-item index="2" style="margin-left: 0rem; font-size: large" @click="gotoDoor">课程广场</el-menu-item>-->
           <el-menu-item index="3" style="margin-left: 0rem; font-size: large" @click="gotoBlog">论坛</el-menu-item>
           <el-menu-item index="4" style="margin-left: 0rem; font-size: large" @click="gotoMsgCollection">
             消息中心
             <el-badge :value="totalMsgNum">
             </el-badge>
           </el-menu-item>
-          <el-submenu index="5" style="margin-left: 0rem;font-size: large" v-show="admin">
-            <template slot="title" style="font-size: large">后台管理</template>
-            <el-menu-item index="5-1" @click="gotoReported">处理举报</el-menu-item>
-            <el-menu-item index="5-2" @click="gotoLog">查看日志</el-menu-item>
-            <el-menu-item index="5-3" @click="manage=true">权限管理</el-menu-item>
-          </el-submenu>
+          <el-menu-item index="5" style="margin-left: 0rem; font-size: large"
+                        v-if="admin"  @click="gotoUpload">上传课程</el-menu-item>
+          <el-menu-item index="6" style="margin-left: 0rem; font-size: large"
+                        v-if="admin"  @click="gotoTeamInfo">团队信息</el-menu-item>
+<!--          <el-submenu index="7" style="margin-left: 0rem;font-size: large" v-show="admin">-->
+<!--            <template slot="title" style="font-size: large">后台管理</template>-->
+<!--            <el-menu-item index="7-1" @click="gotoReported">处理举报</el-menu-item>-->
+<!--            <el-menu-item index="7-2" @click="gotoLog">查看日志</el-menu-item>-->
+<!--            <el-menu-item index="7-3" @click="manage=true">权限管理</el-menu-item>-->
+<!--          </el-submenu>-->
           <!--      <el-dialog :visible.sync="manage">-->
           <!--        <el-tabs v-model="activeName" @tab-click="handleClick">-->
           <!--          <el-tab-pane label="新增" name="first">-->
@@ -106,7 +110,7 @@
               <el-col span="20">
                 <input
                     style="border-radius: 5px;
-                  height: 30px;"
+                    height: 30px;"
                     placeholder="  搜索课程"
                     prefix-icon="el-icon-search"
                     v-model="input1">
@@ -117,13 +121,13 @@
                   <i class="el-icon-search"></i>
                 </div>
               </el-col>
-          </el-row>
+            </el-row>
           </div>
         </div>
       </el-col>
-      <el-col span="2" style="height: 60px;background-color: #0f72ca;">
+      <el-col span="2" style="height: 60px;background-color: #0f72ca">
         <!--用户头像-->
-        <div style="text-align: center; margin-top: 10px" v-show="keepLogin">
+        <div style="text-align: center; margin-top: 10px" v-if="keepLogin">
           <el-popover
               placement="top-start"
               trigger="hover"
@@ -131,38 +135,40 @@
             <div class="text item">
               <div style="width: 200px; height: 50px; margin-top: -10px">
                 <el-row class="demo-avatar demo-basic">
-                  <el-col :span="8" :offset="1">
-                    <div class="demo-basic--circle" style="margin-top: 10px">
-                      <div class="block">
-                        <el-avatar :size="50" :src="picture"></el-avatar>
-                      </div>
-                    </div>
-                  </el-col>
-                  <el-col :span="8" :offset="1">
+                  <el-col :span="16" :offset="1">
                     <h2 style="margin-top: 15px;margin-bottom: 10px">{{ personName }}</h2>
                   </el-col>
                 </el-row>
               </div>
               <div style="height: 10px"></div>
-              <div style="margin-top: 8px; margin-bottom:0px; margin-left: 12px">
-                <el-link :underline="false" @click="gotoMyinfo">个人信息</el-link>
-              </div>
+              <div v-if="userId">
+                <div style="margin-top: 8px; margin-bottom:0px; margin-left: 12px" v-if="this.$store.state.userId">
+                  <el-link :underline="false" @click="gotoMyinfo">个人信息</el-link>
+                </div>
+<!--                <div style="margin-top: 16px; margin-left: 12px">-->
+<!--                  <el-link :underline="false" @click="gotoMyLike">我的关注</el-link>-->
+<!--                </div>-->
+<!--                <div style="margin-top: 16px; margin-left: 12px">-->
+<!--                  <el-link :underline="false" @click="gotoMyCollection">个人收藏</el-link>-->
+<!--                </div>-->
+            </div>
               <div style="margin-top: 16px; margin-left: 12px">
-                <el-link :underline="false" @click="gotoMyLike">我的关注</el-link>
-              </div>
-              <div style="margin-top: 16px; margin-left: 12px">
-                <el-link :underline="false" @click="gotoMyCollection">个人收藏</el-link>
-              </div>
-              <div style="margin-top: 16px; margin-left: 12px">
-                <el-link :underline="false" @click="logout" v-show="keepLogout">退出登录</el-link>
+                <el-link :underline="false" @click="logout">退出登录</el-link>
               </div>
             </div>
-            <el-button slot="reference" type="warning" class="el-icon-user"
-                       style="border-color: #67c23a;background-color: #67c23a; border-radius: 50px"></el-button>
+            <!--            <div class="demo-basic&#45;&#45;circle" style="margin-top: 10px">-->
+            <!--              <div class="block">-->
+            <!--                <el-avatar :size="50" :src="picture"></el-avatar>-->
+            <el-image class="avatar" :src="this.picture" slot="reference"></el-image>
+            <!--              </div>-->
+            <!--            </div>-->
+            <!--            <el-button slot="reference" type="warning" class="el-icon-user"-->
+            <!--                       style="border-color: #67c23a;background-color: #67c23a; border-radius: 50px"></el-button>-->
           </el-popover>
         </div>
-        <div style="text-align: center; margin-top: 10px" @click="gotoLogin" v-show="!keepLogin">
-          <a href style="font-size: large; color: white">登录</a>
+        <div style="text-align: center; margin-top: 15px" @click="gotoLogin" v-if="!keepLogin">
+          <el-link :underline="false" style="font-size: large; color: white">
+            登录</el-link>
         </div>
       </el-col>
     </el-row>
@@ -181,36 +187,15 @@ export default {
   },
   data() {
     return {
-      addPerson: '',
-      delPerson: '',
-      activeName: 'second',
-      admin: 'true',
-      keepLogin: true,
-      keepLogout: false,
-      activeIndex2: '1',
+      admin: false,// fixme:团队不应该显示个人信息等
+      keepLogin: false,
+      userId: '',// 登录的是学生或团队，都叫userId
       personName: '',
-      picture: "",
+      picture: undefined,
       manage: false,
-      dialogFormVisible_author: false,
-      dialogFormVisible_paper: false,
-      form: {
-        start: '',
-        end: '',
-        delivery: false,
-      },
-      form_2: {
-        start: '',
-        end: '',
-        delivery: false,
-      },
-      addAndDelWidth: '100px',
-      formLabelWidth: '80px',
-      formLabelWidth_2: '80px',
-      userId: '',
       totalMsgNum: '',
-      status: "",
-      input1: '',
-      type: '标题'
+      input1: '',// 搜索框中的文字
+      type: 0,// 默认根据课程名称检索
     };
   },
   mounted() {
@@ -222,107 +207,29 @@ export default {
     },
     sendSearch(input) {
       if (input.length === 0) {
-        // this.$message({
-        //   type: 'info',
-        //   message: '请输入搜索内容！'
-        // })
-      } else {
-        // this.$router.push({
-        //   path: '/Searching',
-        //   query: {
-        //     input: input,
-        //     // type: type
-        //   }
-        // });
         this.$message({
-          type: 'success',
-          message: this.input1
+          type: 'info',
+          message: '请输入搜索内容！'
         })
+      } else {
+        this.$router.push({
+          path: '/Searching',
+          query: {
+            input: this.input1,
+            // pagenum: 1,
+            // type: 0
+          }
+        });
       }
     },
-    // updateAuthor(start, end) {
-    //   var that = this
-    //   this.$axios.post('/apis/search/updateacademicdb',
-    //       {
-    //         administratorid: that.userId,
-    //         file: "author",
-    //         startline: start,
-    //         linesnumber: (end - start + 1)
-    //       })
-    //       .then(res => {
-    //         console.log(res);
-    //         that.$router.go(0)
-    //         this.$message({
-    //           type: 'success',
-    //           message: '更新成功!'
-    //         });
-    //       }).catch(() => {
-    //     this.$message({
-    //       type: 'info',
-    //       message: '更新失败'
-    //     });
-    //   });
-    // },
-    // updatePaper(start, end) {
-    //   var that = this
-    //   this.$axios.post('/apis/search/updateacademicdb',
-    //       {
-    //         administratorid: that.userId,
-    //         file: "paper",
-    //         startline: start,
-    //         linesnumber: (end - start + 1)
-    //       })
-    //       .then(res => {
-    //         console.log(res);
-    //         that.$router.go(0)
-    //         this.$message({
-    //           type: 'success',
-    //           message: '更新成功!'
-    //         });
-    //       }).catch(() => {
-    //     this.$message({
-    //       type: 'info',
-    //       message: '更新失败'
-    //     });
-    //   });
-    // },
-    // getAuthorLine() {
-    //   var that = this
-    //   this.$axios.post('/apis/search/getupdatebyfilename',
-    //       {
-    //         filename: "author",
-    //         pagenumber: 1,
-    //       })
-    //       .then(res => {
-    //         console.log(res);
-    //         that.form.start = res.data[0].finishlinenum
-    //       })
-    // },
-    // getPaperLine() {
-    //   var that = this
-    //   this.$axios.post('/apis/search/getupdatebyfilename',
-    //       {
-    //         filename: "paper",
-    //         pagenumber: 1,
-    //       })
-    //       .then(res => {
-    //         console.log(res);
-    //         that.form_2.start = res.data[0].finishlinenum
-    //       })
-    // },
     logout() {
-      this.$axios({
-        url: '/apis/user/logout',
-        method: "post",
-      }).then(res => {
-        console.log(res);
-        this.personName = '',
-            this.picture = '',
-            this.keepLogin = true,
-            this.keepLogout = false,
-            this.admin = false,
-            this.gotoLogin()
-      })
+      this.$store.state.keepLogIn = false;
+      this.$store.state.teamId = 0;
+      this.$store.state.userId = 0;
+      this.keepLogin = false;
+      this.userId = '';
+      // 再清除本地存储，否则登出后刷新会回到登录状态
+      this.$store.commit('logout')
     },
     gotoLog() {
       this.$router.push('/log')
@@ -332,13 +239,27 @@ export default {
     },
     // 课程广场
     gotoDoor() {
-      this.$router.push('/course')
+      // fixme: for debug
+      this.$router.push({
+        path: '/searching',
+        query: {
+          input: 'java'
+        }
+      })
     },
     gotoMsgCollection() {
       this.$router.push('/messageNav/privacyMsg')
     },
+    gotoTeamInfo() {
+      this.$router.push({
+        path: '/teaminfo',
+        query: {
+          teamid: this.$store.state.teamId
+        }
+      })
+    },
     gotoMyinfo() {
-      this.$router.push('/personinfo/information')
+      this.$router.push('/information')
     },
     gotoMyLike() {
       this.$router.push('/personinfo/following')
@@ -357,29 +278,41 @@ export default {
     gotoBlog() {
       this.$router.push('/BlogDashboard/BlogDesktop')
     },
+    // 上传课程
+    gotoUpload() {
+      this.$router.push('/upload')
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
     getData() {
-      var that = this
-      this.$axios({
-        url: '/apis/personality/get',
-        method: "post",
-      }).then(res => {
-        console.log(res);
-        that.status = res.data.status
-        if (that.status === 0) {
-          this.keepLogin = false;
-          this.keepLogout = true;
-          that.personName = res.data.username
-          that.picture = res.data.avatar
-          that.admin = res.data.is_admin
-          that.userId = res.data.userid
-        } else if (that.status === 2) {
-          this.keepLogin = true;
-          this.keepLogout = false;
+      if (this.$store.state.keepLogIn === true) {
+        this.keepLogin = true;
+        if (this.$store.state.userId !== 0) {
+          // 是普通用户
+          this.userId = this.$store.state.userId;
+          this.$axios.post('/apis/user/getuserinfo', {
+            id: this.userId
+          }).then(res => {
+            if (res.data.error_code === 0) {
+              this.personName = res.data.data.username;
+              this.picture = res.data.data.avatar;
+            }
+          })
+        } else {
+          // 是团队
+          this.userId = this.$store.state.teamId;
+          this.$axios.post('/apis/team/getteamdetail', {
+            id: this.userId
+          }).then(res => {
+            if (res.data.error_code === 0) {
+              this.personName = res.data.data.name;
+              this.picture = res.data.data.logo;
+              this.admin = true;
+            }
+          })
         }
-      })
+      }
     }
   }
 }
@@ -414,9 +347,20 @@ li {
   width: 480px;
 }
 
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  display: block;
+}
+
 body {
   //background-color: whitesmoke;
   background-image: url('../../assets/image/user/image/login-back.png');
   background-attachment: fixed;
+}
+
+.el-link :hover{
+  color: rgb(249,174,143);
 }
 </style>

@@ -4,19 +4,20 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-    //主页
+    // 主页
     {
         path: '/',
         name: 'Home',
         component: () => import('../views/navigatorandsearch/Search'),
         // redirect: "/search"
     },
-    //检索
+    // 主页
     {
         path: '/search',
         name: 'Search',
         component: () => import('../views/navigatorandsearch/Search')
     },
+    // 检索结果
     {
         path: '/Searching',
         name: 'Searching',
@@ -25,21 +26,23 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/navigatorandsearch/Searching.vue')
     },
+    // 登录注册
     {
         path: '/login',
         name: 'Login',
         component: () => import('../views/user/Login.vue')
+    },
+    // 个人信息
+    {
+        path: '/information',
+        name: 'Information',
+        component: () => import('../views/user/Information.vue'),
     },
     {
         path: '/personinfo',
         name: 'PersonInfo',
         component: () => import('../views/user/PersonInfo.vue'),
         children: [
-            {
-                path: 'information',
-                name: 'Information',
-                component: () => import('../views/user/Information.vue'),
-            },
             {
                 path: 'following',
                 name: 'Following',
@@ -94,21 +97,29 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/team/Team.vue')
     },
-
+    // 团队信息
+    {
+        path: '/teaminfo',
+        name: 'TeamInfo',
+        component: () => import('../views/team/TeamInfo')
+    },
     //课程详情
     {
         path: '/course',
-        name: 'Paper',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/course/Course.vue')
+        name: 'Course',
+        component: () => import('../views/course/Course.vue')
     },
+
     //上传课程
     {
         path: '/upload',
         name: 'UploadCourse',
         component: () => import('../views/course/UploadCourse')
+    },
+    {
+        path: '/crop',
+        name: 'LzgUploadImg',
+        component: () => import('../views/course/Upload')
     },
     //   //要认领的门户列表
     // {

@@ -6,11 +6,11 @@
         <el-button type="text" icon="el-icon-back" @click="gotoBack">返回</el-button>
       </div>
       <el-card>
-        <el-form ref="appForm" :model="appForm" :rules="appRules" :label-position="right">
+        <el-form ref="appForm" :model="appForm" :rules="appRules" >
           <el-form-item label="课程图片" prop="image">
             <el-upload
                 class="upload-img"
-                :style="{height: '200px', textAlign: 'center', backgroundImage:'url(' + appForm.image + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
+                :style="{height: '200px', width: '300px', textAlign: 'center', backgroundImage:'url(' + appForm.image + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
                 action
                 ::limit="1"
                 :show-file-list="false"
@@ -42,22 +42,22 @@
           <!--              />-->
           <!--            </el-select>-->
           <!--          </el-form-item>-->
-<!--          <el-date-picker-->
-<!--              v-model="value6"-->
-<!--              @change="dateChangeBirthday1"-->
-<!--              type="datetimerange"-->
-<!--              format="yyyy-MM-dd-HH-mm-ss"-->
-<!--              value-format="yyyy-MM-dd-HH-mm-ss"-->
-<!--              start-placeholder="开始日期"-->
-<!--              end-placeholder="结束日期"-->
-<!--              :default-time="['12:00:00']"-->
-<!--          ></el-date-picker>-->
-          <el-form-item label="开始时间" prop="starttime">
-            <el-date-picker v-model="appForm.starttime" type="datetime" @change="testFun"
+          <!--          <el-date-picker-->
+          <!--              v-model="value6"-->
+          <!--              @change="dateChangeBirthday1"-->
+          <!--              type="datetimerange"-->
+          <!--              format="yyyy-MM-dd-HH-mm-ss"-->
+          <!--              value-format="yyyy-MM-dd-HH-mm-ss"-->
+          <!--              start-placeholder="开始日期"-->
+          <!--              end-placeholder="结束日期"-->
+          <!--              :default-time="['12:00:00']"-->
+          <!--          ></el-date-picker>-->
+          <el-form-item label="开始时间" prop="startTime">
+            <el-date-picker v-model="appForm.startTime" type="datetime" @change="testFun"
                             placeholder="选择时间"/>
           </el-form-item>
-          <el-form-item label="截止时间" prop="endtime">
-            <el-date-picker v-model="appForm.endtime" type="datetime" placeholder="选择时间"/>
+          <el-form-item label="截止时间" prop="endTime">
+            <el-date-picker v-model="appForm.endTime" type="datetime" placeholder="选择时间"/>
           </el-form-item>
           <el-form-item label="课程链接" prop="link">
             <el-input v-model="appForm.link" placeholder="请输入课程链接(可以为空)"/>
@@ -104,33 +104,41 @@ export default {
     return {
       value6: '',
       btnLoading: false,
-      tid: '',// todo: to be implemented
       appForm: {
+        tid: 0,
         image: undefined,
-        starttime: undefined,
-        endtime: undefined,
+        startTime: undefined,
+        endTime: undefined,
         name: '',
         teacher: '',
         description: '',
         link: '',
-        type: "0",
-        state: "0",
-        status: "0",
+        // type: "0",
+        // state: "0",
+        // status: "0",
       },
       appRules: {
         name: [{required: true, message: "请输入课程名称", trigger: "blur"}],
         image: [{required: true, message: "请选择图片", trigger: "blur"}],
-        starttime: [{required: true, message: "请选择开始时间", trigger: "blur"}],
-        endtime: [{required: true, message: "请选择截止时间", trigger: "blur"}],
+        startTime: [{required: true, message: "请选择开始时间", trigger: "blur"}],
+        endTime: [{required: true, message: "请选择截止时间", trigger: "blur"}],
       },
       groupList: [],
     };
   },
   mounted() {
     // this.getDic();
+    this.init();
   },
   methods: {
-    // 主页
+    init() {
+      if (this.$store.state.teamId !== 0) {
+        this.appForm.tid = this.$store.state.teamId
+      } else {
+        this.$message.error('请先登录')
+      }
+    },
+    // 后退主页
     gotoBack() {
       // this.$router.push('/Search')
       this.$router.back();
@@ -146,15 +154,15 @@ export default {
       // if (this.data) this.appForm = this.data;
       // this.appForm.imageUrl = "";
     },
-    async getDic() {
-      // to be implemented
-      const {data, success, message} = await apiBaseGetDic();
-      if (!success) {
-        this.$message.warning(message);
-        return;
-      }
-      this.groupList = data;
-    },
+    // async getDic() {
+    //   // to be implemented
+    //   const {data, success, message} = await apiBaseGetDic();
+    //   if (!success) {
+    //     this.$message.warning(message);
+    //     return;
+    //   }
+    //   this.groupList = data;
+    // },
     // 修改日期格式
     formatDate(date) {
       Date.prototype.format = function (fmt) {
@@ -189,14 +197,14 @@ export default {
 
     // 测试日期转换后的格式
     testFun() {
-      console.log(this.formatDate(this.appForm.starttime));
+      console.log(this.formatDate(this.appForm.startTime));
     },
     // 上传课程
     async uploadCourse() {
       let result;
       // 转换为YYYY-MM-DD hh:mm:ss格式
-      this.appForm.starttime = this.formatDate(this.appForm.starttime);
-      this.appForm.endtime = this.formatDate(this.appForm.endtime);
+      this.appForm.startTime = this.formatDate(this.appForm.startTime);
+      this.appForm.endTime = this.formatDate(this.appForm.endTime);
       try {
         await this.$refs.appForm.validate();
       } catch (error) {
@@ -204,41 +212,44 @@ export default {
       }
       // 图标显示转圈效果
       this.btnLoading = true;
-      // to be implemented
-      // const {success, message} = await apiBaseAppUpdate(this.appForm);
+      // console.log(this.appForm)
       this.$axios.post('apis/course/uploadcourse', {
-        tid: this.tid,
+        tid: this.appForm.tid,
         name: this.appForm.name,
+        teacher: this.appForm.teacher,
         description: this.appForm.description,
         link: this.appForm.link,
-        starttime: this.appForm.starttime,
-        endtime: this.appForm.endtime,
+        startTime: this.appForm.startTime,
+        endTime: this.appForm.endTime,
         image: this.appForm.image
       }).then(res => {
-        // console.log(this.appForm)
-        result = res.data.status
-        // console.log(res)
-        if (result !== 0) {
-          this.$alert('网络请求错误', '上传失败', {
-            confirmButtonText: '确定',
-          });
+        // console.log(res.data)
+        result = res.status
+        if (result === 500) {
+          this.$message({
+            message: '服务器连接超时',
+            type: 'error'
+          })
+        } else if (res.data.error_code !== 0) {
+          // this.$alert('团队不存在', '上传失败', {
+          //   confirmButtonText: '确定',
+          // });
+          this.$message.error(res.data.msg)
         } else {
+          this.btnLoading = true;
+          // this.$message.success("上传成功");
+          // alert('上传成功')
+          // 延时1s后返回上一个页面
+          for (let t = Date.now(); Date.now() - t <= 1000;) ;
           this.$notify({
             title: '上传课程',
             message: '上传成功',
             type: 'success'
           });
+          this.$router.back()
         }
       })
-      // if (!success) {
-      //   this.$message.warning(message);
-      //   return;
-      // }
-      if (result === 0) {
-        this.btnLoading = false;
-        this.$message.success("上传成功");
-        this.$router.go(-1);
-      }
+      this.btnLoading = false;
     },
     resetForm() {
       this.$refs.appForm.resetFields();
@@ -329,5 +340,6 @@ input[type="file"] {
 
 /deep/ .el-form-item__label {
   font-size: 1rem;
+  width: 100px;
 }
 </style>

@@ -2,16 +2,24 @@
   <div class="pad">
     <el-row style="height: 20px"></el-row>
     <el-row gutter="20" style="margin: 0px">
-      <el-col span="3" style="padding: 0px">
-        <img class="navigationlogo" src="@/assets/logo2.jpg"/>
+      <el-col span="3">
+        <img class="bottomlogo" src="@/assets/logo2.jpg"/>
       </el-col>
       <el-col span="18">
         <div style="text-align: center; color: white; margin-top: 10px">
-          <span>可以扫描右侧二维码关注我们<br>如果网站内容侵犯了您的权益，也可以联系我们<br></span>
+          <span>
+            可以扫描右侧二维码关注我们<br/>
+            若本站收录内容无意侵犯了您的版权，请向下面的邮箱来信，我们会及时处理和回复，谢谢合作<br/>
+            Email: 601343748@qq.com<br/>
+            Email:  hgtttttt@qq.com<br/>
+          </span>
+          <span><br></span>
           <span>©2021 橄榄支实践队</span>
         </div>
       </el-col>
+      <el-col span="1"></el-col>
       <el-col style="float: right" span="2">
+        <span><br></span>
         <el-popover
             placement="bottom"
             width="180"
@@ -42,8 +50,8 @@ export default {
 </script>
 
 <style scoped>
-.navigationlogo {
-  height: 60px;
+.bottomlogo {
+  height: 130px;
 }
 
 .pad {

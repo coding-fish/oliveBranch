@@ -1,14 +1,13 @@
 <template>
-
+  <!--这是网站的主页-->
   <div>
     <new-navigation></new-navigation>
     <el-container>
       <el-main style="text-align: center;">
-        <div  style="margin-top: 0px; margin-bottom: 0px;
-                margin-left: 100px; margin-right: 100px; height: 350px">
-          <el-carousel type="card" height="350px">
-            <el-carousel-item v-for="item in 6" :key="item">
-              <h3>课程图片{{ item }}</h3>
+        <div style="margin: 0px 100px;">
+          <el-carousel type="card" height="400px">
+            <el-carousel-item v-for="item in imgs" :key="item" >
+              <img :src="item.url" height="360px" width="600px"/>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -16,14 +15,24 @@
           <div class="label">最近直播</div>
           <el-divider></el-divider>
           <el-row :gutter="20">
-            <el-col :span="6" v-for="item in 4" :key="item">
-              <div class="grid-content bg-purple" style="font-weight: bold;">
-                <img src="../../assets/bhkw.png" height="120px" width="250px"/><br>
-                课程名称{{ item }}
-                <div style="font-size: 10px; color: #4a5568">授课团队{{ item }}</div>
-                <el-divider></el-divider>
-                <div style="font-size: 10px; color: #050505">内容简介{{ item }}</div>
-              </div>
+            <!--最多显示4条-->
+            <el-col :span="6" v-for="(item, index) in latest_courses" :key="index" v-if="index<4">
+              <el-link @click="jumpToDetail(item)" :underline=false>
+                <div class="grid-content bg-purple" style="font-weight: bold;">
+                  <el-image :src="item.picture" style="height: 120px">
+                    <div slot="error" class="image-slot">
+                      <div
+                          style="background-color: #3a8ee6; height: 120px; width: 290px; line-height: 100px; text-align: center; color: white">
+                        暂无图片
+                      </div>
+                    </div>
+                  </el-image>
+                  {{ item.name }}
+                  <div style="font-size: 10px; color: #4a5568">{{ item.team }}</div>
+                  <br>
+                  <div style="font-size: 10px; color: #050505">{{ item.description | ellipsis }}</div>
+                </div>
+              </el-link>
             </el-col>
           </el-row>
         </el-row>
@@ -31,14 +40,24 @@
           <div class="label">热门课程</div>
           <el-divider></el-divider>
           <el-row :gutter="20">
-            <el-col :span="6" v-for="item in 4" :key="item">
-              <div class="grid-content bg-purple" style="font-weight: bold;">
-                <img src="../../assets/bhkw.png" height="120px" width="250px"/><br>
-                课程名称{{ item }}
-                <div style="font-size: 10px; color: #4a5568">授课团队{{ item }}</div>
-                <el-divider></el-divider>
-                <div style="font-size: 10px; color: #050505">内容简介{{ item }}</div>
-              </div>
+            <!--最多显示4条-->
+            <el-col :span="6" v-for="(item, index) in popular_courses" :key="index" v-if="index<4">
+              <el-link @click="jumpToDetail(item)" :underline=false>
+                <div class="grid-content bg-purple" style="font-weight: bold;">
+                  <el-image :src="item.picture" style="height: 120px">
+                    <div slot="error" class="image-slot">
+                      <div
+                          style="background-color: #3a8ee6; height: 120px; width: 290px; line-height: 100px; text-align: center; color: white">
+                        暂无图片
+                      </div>
+                    </div>
+                  </el-image>
+                  {{ item.name }}
+                  <div style="font-size: 10px; color: #4a5568">{{ item.team }}</div>
+                  <br>
+                  <div style="font-size: 10px; color: #050505">{{ item.description | ellipsis }}</div>
+                </div>
+              </el-link>
             </el-col>
           </el-row>
         </el-row>
@@ -62,104 +81,64 @@ export default {
   },
   data() {
     return {
-      professor: '',
-      proRank: '#1',
-      proIntroduction: 'Pro Introduction',
-      options: [{
-        value: '选项1',
-        label: '标题'
-      }, {
-        value: '选项2',
-        label: '关键词'
-      }],
+      latest_courses: [],// 最近直播的课程
+      popular_courses: [],// 热门课程
       value: '',
-      ranks: [{
-        id: '',
-        title: '',
-        n_citation: ''
-      }],
-      library: [{
-        id: '',
-        name: '',
-        h_index: '',
-        n_pubs: '',
-        n_citation: '',
-      }],
-      science: [{
-        avatar: '',
-        blogid: '',
-        blogname: '',
-        htmlcontent: '',
-        likenum: '',
-        readnum: '',
-        textcontent: '',
-        tipnum: '',
-        userid: '',
-      }],
-      input3: '',
-      type: '标题'
+      type: '标题',
+      imgs: [
+        {url: require('@/assets/carousel/1.jpg')},
+        {url: require('@/assets/carousel/2.jpg')},
+        {url: require('@/assets/carousel/3.jpg')},
+        {url: require('@/assets/carousel/4.jpg')},
+        {url: require('@/assets/carousel/5.jpg')},
+        {url: require('@/assets/carousel/6.jpg')},
+      ]
     }
   },
   mounted() {
-    // this.getRanks()
-    // this.getLibrary()
-    // this.getScience()
+    this.getLatest();
+    this.getPopular();
   },
   methods: {
-    //高级检索跳转
-    gotoCompSearch() {
-      this.$router.push('/AdvancedSearch')
+    getLatest() {
+      this.$axios.post('/apis/course/getlatest')
+          .then(res => {
+            if (res.data.error_code === 0) {
+              this.latest_courses = res.data.data;
+            } else {
+              this.$message.error('网络错误')
+            }
+          })
     },
-    // //学术焦点
-    // getRanks() {
-    //     var that = this
-    //     this.$axios.post('/apis/search/popularpapers',
-    //     ).then(res => {
-    //         console.log(res);
-    //         that.ranks = res.data
-    //     })
-    // },
-    // //热门专家
-    // getLibrary() {
-    //     var that = this
-    //     this.$axios.post('/apis/search/popularauthors')
-    //         .then(res => {
-    //             console.log(res);
-    //             that.library = res.data
-    //         })
-    // },
-    // // 热门帖子
-    // getScience() {
-    //     var that = this
-    //     this.$axios.post('/apis/blog/gethotblogs',
-    //         {
-    //             type: 0
-    //         },)
-    //         .then(res => {
-    //             console.log(res);
-    //             that.science = res.data.data.list
-    //         })
-    // },
-    // getType(label) {
-    //     this.type = label
-    // },
-    sendSearch(input, type) {
-      if (input.length === 0) {
-        this.$message({
-          type: 'info',
-          message: '请输入搜索内容！'
-        })
-      } else {
-        this.$router.push({
-          path: '/Searching',
-          query: {
-            input: input,
-            type: type
-          }
-        })
-      }
+    getPopular() {
+      this.$axios.post('apis/course/getpopular')
+          .then(res => {
+            if (res.data.error_code === 0) {
+              this.popular_courses = res.data.data;
+            } else {
+              this.$message.error('网络错误')
+            }
+          })
+    },
+    jumpToDetail(item) {
+      this.$router.push({
+        path: '/course',
+        query: {
+          courseid: item.id
+        }
+      })
     }
-  }
+  },
+  filters: {
+    // 只显示前32个字符，超出用省略号
+    ellipsis(value) {
+      if (!value) return ''
+      if (value.length > 32) {
+        return value.slice(0, 32) + '...'
+      }
+      return value
+    }
+  },
 }
 </script>
 
@@ -285,11 +264,11 @@ body {
 }
 
 .el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+  //background-color: #99a9bf;
 }
 
 .el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+  //background-color: #d3dce6;
 }
 
 .label {
@@ -332,8 +311,16 @@ body {
   padding: 5px;
 }
 
+.el-link :hover {
+  // 自定义的悬停效果
+  color: #0f72ca;
+  font-size: 20px;
+  text-shadow: black;
+}
+
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
 }
+
 </style>

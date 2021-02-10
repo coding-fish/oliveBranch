@@ -5,16 +5,16 @@
     </div>
     <div class="personInfo">
       <el-row class="main" :gutter="20" style="text-align:center">
-        <el-col :span="3" >
+        <el-col :span="3">
           <el-menu
-            router
-            default-active=activeIndex
-            class="el-menu-vertical-demo"
-            @select="handleSelect"
-            background-color="#0f72ca"
-            text-color="#fff"
-            active-text-color="rgb(255,221,0)">
-            <el-menu-item index="/personinfo/information">
+              router
+              default-active=activeIndex
+              class="el-menu-vertical-demo"
+              @select="handleSelect"
+              background-color="#0f72ca"
+              text-color="#fff"
+              active-text-color="rgb(255,221,0)">
+            <el-menu-item index="/information">
               <!-- <img class="nav-icon" src="../icons/attribute.png"/> -->
               <i class="el-icon-user-solid nav-icon"></i>
               <span slot="title">个人信息</span>
@@ -30,6 +30,7 @@
           </el-menu>
         </el-col>
         <el-col :span="21">
+<!--          <router-view v-if="routerActive"></router-view>-->
           <router-view></router-view>
         </el-col>
       </el-row>
@@ -39,17 +40,24 @@
 </template>
 
 <script>
-  import NewNavigation from "../navigatorandsearch/NewNavigation";
+import NewNavigation from "../navigatorandsearch/NewNavigation";
 
 export default {
   name: 'PersonInfo',
   components: {
     NewNavigation,
   },
-  data(){
-      return{
-          activeIndex: this.$route.path,
-      }
+  data() {
+    return {
+      // routerActive: true,
+      activeIndex: this.$route.path,
+    }
+  },
+  mounted() {
+    // this.routerActive = false;
+    // this.$nextTick(()=>{
+    //   this.routerActive = true;
+    // })
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -61,12 +69,13 @@ export default {
 </script>
 
 <style scoped>
-.nav-icon{
-    color:white
+.nav-icon {
+  color: white
 }
-.personInfo{
-    margin-left:3%;
-    margin-top:1%;
+
+.personInfo {
+  margin-left: 3%;
+  margin-top: 1%;
 }
 </style>
 

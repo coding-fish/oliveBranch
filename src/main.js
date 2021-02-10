@@ -3,6 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+// import {store} from './store/index.js'
 import Element from "element-ui";
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from "axios";
@@ -36,7 +37,7 @@ import './assets/css/navigatorAndSearch/forSearch/iconfont.css';
 // import './assets/css/navigatorAndSearch/forSearch/demo.css';
 
 // axios.defaults.baseURL = "/api"
-axios.defaults.headers={'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 Vue.use(Element);
 Vue.prototype.$axios = axios;
 Vue.prototype.$echarts = echarts
@@ -47,7 +48,7 @@ Vue.prototype.$Base64 = Base64;
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
