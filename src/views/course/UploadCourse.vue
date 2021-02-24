@@ -6,26 +6,58 @@
         <el-button type="text" icon="el-icon-back" @click="gotoBack">返回</el-button>
       </div>
       <el-card>
-        <el-form ref="appForm" :model="appForm" :rules="appRules" >
+        <el-form ref="appForm" :model="appForm" :rules="appRules">
           <el-form-item label="课程图片" prop="image">
+            <br/>
             <el-upload
-                class="upload-img"
-                :style="{height: '200px', width: '300px', textAlign: 'center', backgroundImage:'url(' + appForm.image + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
-                action
+                ref="fileUpload"
+                class="upload-el"
+                accept="image/*"
+                name="pic"
+                :action="action"
+                :data="this.appForm.image"
                 ::limit="1"
-                :show-file-list="false"
                 :on-change="handleChange"
                 :before-upload="beforeUpload"
-                accept="image/png, image/gif, image/jpg, image/jpeg"
+                :show-file-list="false"
+                :auto-upload="false"
             >
-              <i v-show="!appForm.image" class="el-icon-upload avatar-uploader-icon"/>
-              <div v-show="!appForm.image" slot="tip" class="el-upload__text upload__tip">
-                <div style="color: #4a5568">
-                  上传照片(仅支持png、gif、jpg、jpeg格式),大小限制为5M
+<!--              <i v-show="!appForm.image" class="el-icon-upload avatar-uploader-icon"/>-->
+<!--              <div v-show="!appForm.image" slot="tip" class="el-upload__text upload__tip">-->
+<!--                <div style="color: #4a5568">-->
+<!--                  上传照片(仅支持常见图片格式,大小限制为5M)-->
+<!--                </div>-->
+<!--              </div>-->
+              <div
+                  class="upload-border"
+                  :style="{ height: imageHeight+'px', width: imageWidth+'px' }"
+              >
+                <img
+                    v-if="uploadFile"
+                    :style="{ height: imageHeight+'px', width: imageWidth+'px' }"
+                    :src="uploadFile"
+                    class="upload-border"
+                >
+                <i v-else class="el-icon-upload avatar-uploader-icon"/>
+                <div v-if="!uploadFile" slot="tip" class="el-upload__text upload__tip">
+                  <div style="color: #4a5568">
+                    上传照片(仅支持常见图片格式,大小限制为5M)
+                  </div>
                 </div>
               </div>
             </el-upload>
           </el-form-item>
+          <cropper
+              v-show="showCropper"
+              :dialog-visible="showCropper"
+              :cropper-img="cropperImg"
+              :fixed-box="fixedBox"
+              :auto-crop-width="autoCropWidth"
+              :auto-crop-height="autoCropHeight"
+              @update-cropper="updateCropper"
+              @close-dialog="closeDialog"
+              @upload-img="uploadImg"
+          />
           <el-form-item label="课程名称" prop="name">
             <el-input v-model="appForm.name" placeholder="请输入课程名称"/>
           </el-form-item>
@@ -78,10 +110,15 @@
 <script>
 import NewNavigation from "@/views/navigatorandsearch/NewNavigation";
 import NewBottom from "@/views/navigatorandsearch/NewBottom";
+import Cropper from "@/views/course/Crop";
 
 export default {
   name: "UploadCourse",
-  components: {NewBottom, NewNavigation},
+  components: {
+    NewBottom,
+    NewNavigation,
+    Cropper
+  },
   props: {
     visible: {
       type: Boolean,
@@ -99,11 +136,43 @@ export default {
       type: Object,
       default: () => undefined,
     },
+    autoCropWidth: {
+      type: Number,
+      // default: 320
+      default: 500
+    },
+    autoCropHeight: {
+      type: Number,
+      // default: 180
+      default: 300
+    },
+    fixedBox: {
+      type: Boolean,
+      default: false
+    },
+    showTip: {
+      type: Boolean,
+      default: true
+    },
+    imageWidth: {
+      type: Number,
+      // default: 320
+      default: 500
+    },
+    imageHeight: {
+      type: Number,
+      // default: 180
+      default: 300
+    },
   },
   data() {
     return {
+      action: this.$BASE_API + "/upload/imageUpload", // 上传地址，必填
       value6: '',
       btnLoading: false,
+      showCropper: false,// for debug
+      cropperImg: "",// 用于裁剪的图片
+      uploadFile: "",// 用于uploader背景
       appForm: {
         tid: 0,
         image: undefined,
@@ -253,17 +322,61 @@ export default {
     },
     resetForm() {
       this.$refs.appForm.resetFields();
+      this.uploadFile = "";
     },
-    handleChange(file, fileList) {
-      const isLt5M = file.size / 1024 / 1024 < 5;
+    handleChange(file) {
+      const {raw, name} = file;
+      this.openCropper(raw);
+    },
+    openCropper(file) {
+      // const isLt5M = file.size / 1024 / 1024 < 5;
+      // if (isLt5M) {
+      //   // uploadImgToBase64()返回一个Promise对象，通过.then()获取其数据。其中data.result是图片转成的base64值
+      //   this.uploadImgToBase64(file.raw).then((data) => {
+      //     this.appForm.image = data.result;
+      //   });
+      // } else {
+      //   this.$message.error("上传图片大小不能超过 5MB!");
+      // }
+      var files = file;
+      let isLt5M = files.size > (5 << 20);
       if (isLt5M) {
-        // uploadImgToBase64()返回一个Promise对象，通过.then()获取其数据。其中data.result是图片转成的base64值
-        this.uploadImgToBase64(file.raw).then((data) => {
-          this.appForm.image = data.result;
-        });
-      } else {
-        this.$message.error("上传图片大小不能超过 5MB!");
+        this.$message.error("上传图片大小不能超过5M!");
+        return false;
       }
+      var reader = new FileReader();
+      reader.onload = e => {
+        let data;
+        if (typeof e.target.result === "object") {
+          // 把Array Buffer转化为blob 如果是base64不需要
+          data = window.URL.createObjectURL(new Blob([e.target.result]));
+        } else {
+          data = e.target.result;
+        }
+        this.cropperImg = data;
+      };
+      // 转化为base64
+      // reader.readAsDataURL(files)
+      // 转化为blob
+      reader.readAsArrayBuffer(files);
+      this.showCropper = true;
+    },
+    // 上传图片
+    uploadImg(file) {
+      this.$message.success('图片上传成功')
+      this.uploadFile = file;
+      // console.log(file)
+      // this.$refs.fileUpload.submit();
+      this.showCropper = false;
+      this.appForm.image = this.uploadFile
+    },
+    // 更新图片
+    updateCropper() {
+      this.$refs.fileUpload.$children[0].$el.click();
+    },
+    // 关闭窗口
+    closeDialog() {
+      this.showCropper = false;
     },
     uploadImgToBase64(file) {
       // 核心方法，将图片转成base64字符串形式

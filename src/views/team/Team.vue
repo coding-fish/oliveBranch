@@ -498,7 +498,7 @@ body {
 
 .el-link :hover {
   color: #0f72ca;
-  font-size: 20px;
+  /*font-size: 20px;*/
   text-shadow: black;
 }
 </style>

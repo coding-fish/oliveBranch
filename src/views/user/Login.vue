@@ -36,7 +36,24 @@
                         placeholder="请输入密码" autocomplete="off"/>
             </el-form-item>
             <el-form-item class="right-button">
-              <el-button type="primary" @click="signSubmitForm('signRuleForm')">注册</el-button>
+              <el-button type="primary" @click="signSubmitForm('signRuleForm', 1)">注册</el-button>
+              <el-button @click="resetForm('signRuleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="团队申请">
+          <el-form :model="signRuleForm" status-icon :rules="signRules" ref="signRuleForm" label-width="110px"
+                   class="demo-ruleForm login-form">
+            <el-form-item label="团队用户名" prop="username">
+              <el-input type="text" v-model="signRuleForm.username" class="inline-input"
+                        placeholder="用户名一旦注册不可修改" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item label="密码" prop="pass">
+              <el-input type="password" v-model="signRuleForm.pass" class="inline-input"
+                        placeholder="请输入密码" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item class="right-button">
+              <el-button type="primary" @click="signSubmitForm('signRuleForm', 2)">注册</el-button>
               <el-button @click="resetForm('signRuleForm')">重置</el-button>
             </el-form-item>
           </el-form>
@@ -171,6 +188,9 @@ export default {
             result = res.data.error_code
             // 登录成功，记录用户id等信息
             if (result === 0) {
+              // 先去掉上次可能未登出的状态
+              this.$store.state.teamId = 0;
+              this.$store.state.userId = 0;
               let type = res.data.data.type
               if (type === 0) {
                 this.$store.state.userId = res.data.data.id
@@ -199,11 +219,16 @@ export default {
         }
       });
     },
-    signSubmitForm(formName) {
+    signSubmitForm(formName, option) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let result;
-          this.$axios.post('/apis/user/register', {
+          let urlstr;
+          if (option === 1)
+            urlstr = "/apis/user/register"
+          else if (option === 2)
+            urlstr = "/apis/team/register"
+          this.$axios.post(urlstr, {
             username: this.signRuleForm.username,
             password: this.signRuleForm.pass,
             // email:this.signRuleForm.email

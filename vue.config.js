@@ -28,13 +28,13 @@ module.exports = {
 	devServer: {
 		// open: true,
 		// host: 'localhost',
-		// port: 8081,
+		port: 8081,
 		// https: false,
 		//以上的ip和端口是我们本机的;下面为需要跨域的
 		proxy: {  //配置跨域
-			// build时取消下面这行注释
-			// 下次不取消 试试
-			// publicPath: process.env.NODE_ENV === 'production'? '/production-sub-path/': '/',
+			// serve时下面这行要注释掉
+			// publicPath: process.env.NODE_ENV === 'production'? './': '/',
+
 			'/apis': {
 				target: 'http://47.95.233.29:9000/apis',  // target后面的/apis有没有都能用
 				ws: true,

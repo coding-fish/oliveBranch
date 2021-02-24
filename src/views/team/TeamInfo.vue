@@ -58,38 +58,42 @@
                           <el-image v-if="this.team.qrcode" :src="this.team.qrcode" alt="fail to load"
                                     fit="cover"></el-image>
                           <i v-if="!this.team.qrcode" class="el-icon-plus avatar-uploader-icon"/>
-                          <div slot="tip" class="el-upload__text upload__tip">
-                            <div v-if="!this.team.qrcode" style="color: #4a5568">
-                              上传团队二维码(大小限制为2M)
-                            </div>
-                            <div v-if="this.team.qrcode" style="color: #4a5568">
-                              点击图片进行更换
-                            </div>
+                          <div v-else>
+
                           </div>
+
                         </el-upload>
+                        <div>
+                          <div v-if="!this.team.qrcode" style="color: #4a5568">
+                            上传团队二维码(大小限制为2M)
+                          </div>
+                          <div v-if="this.team.qrcode" style="color: #4a5568">
+                            点击图片进行更换
+                          </div>
+                        </div>
                       </el-row>
                     </el-col>
                     <!--other info-->
                     <el-col :span="18">
-                      <el-form :label-position="labelPosition" label-width="80px" :model="this.team"
+                      <el-form :label-position="labelPosition" label-width="80px" :model="team"
                                style="text-align:left;margin-bottom:24px">
                       <el-form-item label="团队名称">
-                        <el-input v-model="this.team.name"/>
+                        <el-input v-model="team.name" @input="change"/>
                       </el-form-item>
                       <el-form-item label="团队老师">
-                        <el-input v-model="this.team.teacher"/>
+                        <el-input v-model="team.teacher"/>
                       </el-form-item>
                       <el-form-item label="团队电话">
-                        <el-input v-model="this.team.tel"/>
+                        <el-input v-model="team.tel"/>
                       </el-form-item>
-                      <el-form-item label="团队老师">
-                        <el-input v-model="this.team.mail"/>
+                      <el-form-item label="团队邮箱">
+                        <el-input v-model="team.mail"/>
                       </el-form-item>
                       <el-form-item label="团队网站">
-                        <el-input v-model="this.team.website"/>
+                        <el-input v-model="team.website"/>
                       </el-form-item>
                       <el-form-item label="团队简介">
-                        <el-input v-model="this.team.description" placeholder="可拖拽右下角调节大小" type="textarea" rows="5"/>
+                        <el-input v-model="team.description" placeholder="可拖拽右下角调节大小" type="textarea" rows="5"/>
                       </el-form-item>
                       <el-form-item>
                         <el-button type="success" @click="updateInfo">更新信息</el-button>
@@ -173,7 +177,7 @@ export default {
       labelPosition: 'left',// 控制表单位置
       team_id: 0,
       team: {
-        name: "",
+        name: '',
         teacher: "",
         tel: "",
         mail: "",
@@ -228,6 +232,9 @@ export default {
       } else {
         this.$message.error('请先登录')
       }
+    },
+    change() {
+      this.$forceUpdate()
     },
     updateInfo() {
       this.$axios.post('/apis/team/changeteamdetail', {

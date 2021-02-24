@@ -10,18 +10,19 @@
         :on-change="selectChange"
         :show-file-list="false"
         :auto-upload="false"
-        :http-request="httpRequest"
-        :with-credentials="true"
-        :headers="getHeader"
     >
+<!--        :http-request="httpRequest"-->
+<!--        :with-credentials="true"-->
+<!--        :headers="getHeader"-->
+<!--    >-->
       <div
           class="upload-border"
           :style="{ height: imageHeight+'px', width: imageWidth+'px' }"
       >
         <img
-            v-if="resultImg"
+            v-if="uploadFile"
             :style="{ height: imageHeight+'px', width: imageWidth+'px' }"
-            :src="resultImg"
+            :src="uploadFile"
             class="upload-border"
         >
         <i
@@ -31,16 +32,16 @@
         />
       </div>
     </el-upload>
-    <div>{{ "尺寸必须是"+autoCropWidth+"*"+autoCropHeight+"；jpge,jpg,png格式；图片小于5M；" }}</div>
+    <div>{{ "尺寸必须是"+autoCropWidth+"*"+autoCropHeight+"；jpeg/jpg/png格式；图片小于5M；" }}</div>
     <cropper
-        v-if="showCropper"
+        v-show="showCropper"
         :dialog-visible="showCropper"
         :cropper-img="cropperImg"
         :fixed-box="fixedBox"
         :auto-crop-width="autoCropWidth"
         :auto-crop-height="autoCropHeight"
         @update-cropper="updateCropper"
-        @colse-dialog="closeDialog"
+        @close-dialog="closeDialog"
         @upload-img="uploadImg"
     />
   </div>
@@ -170,9 +171,10 @@ export default {
     },
     // 上传图片
     uploadImg(file) {
-      alert(file)
+      this.$message.success('图片上传成功')
       this.uploadFile = file;
-      this.$refs.fileUpload.submit();
+      // this.$refs.fileUpload.submit();
+      this.showCropper = false;
     },
     // 更新图片
     updateCropper() {

@@ -159,11 +159,6 @@ const routes = [
         component: () => import("../components/blogDashboard.vue"),
         children: [
             {
-                path: "BlogDesktop",
-                name: "BlogDesktop",
-                component: () => import("../views/blog/blogDashboard/blogDesktop.vue")
-            },
-            {
                 path: "BlogMyBlog",
                 name: "BlogMyBlog",
                 component: () => import("../views/blog/blogDashboard/blogMyBlog.vue")
@@ -175,18 +170,26 @@ const routes = [
             }
         ]
     },
+    // 帖子广场
+    {
+        path: "/BlogDesktop",
+        name: "BlogDesktop",
+        component: () => import("../views/blog/blogDashboard/blogDesktop.vue")
+    },
     {
         path: "/BlogSearchItems/:type/:search",
         name: "BlogSearchItems",
         component: () => import("../views/blog/blogSearchItems.vue")
     },
+    // 帖子详情页面
     {
-        path: "/BlogItem/:userid/:blogid",
+        path: "/BlogItem",
         name: "BlogItem",
         component: () => import("../views/blog/blogItem.vue")
     },
+    // 发布前编辑帖子
     {
-        path: "/BlogEdit/:userid/:blogid",
+        path: "/BlogEdit",
         name: "BlogEdit",
         component: () => import("../views/blog/blogEdit.vue")
     },
@@ -203,7 +206,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-    mode: 'history',
+    // mode: 'history',// 刷新后会丢失路由
+    mode: 'hash',
     base: process.env.BASE_URL,
     routes
 })

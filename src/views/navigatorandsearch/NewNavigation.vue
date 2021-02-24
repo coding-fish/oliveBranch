@@ -17,13 +17,13 @@
             active-text-color="#f9ae8f"
         >
           <el-menu-item index="1" style="margin-left: 0rem; font-size: large" @click="gotoMain">首页</el-menu-item>
-<!--          <el-menu-item index="2" style="margin-left: 0rem; font-size: large" @click="gotoDoor">课程广场</el-menu-item>-->
+          <el-menu-item index="2" style="margin-left: 0rem; font-size: large" @click="gotoDoor">课程广场</el-menu-item>
           <el-menu-item index="3" style="margin-left: 0rem; font-size: large" @click="gotoBlog">论坛</el-menu-item>
-          <el-menu-item index="4" style="margin-left: 0rem; font-size: large" @click="gotoMsgCollection">
-            消息中心
-            <el-badge :value="totalMsgNum">
-            </el-badge>
-          </el-menu-item>
+<!--    <el-menu-item index="4" style="margin-left: 0rem; font-size: large" @click="gotoMsgCollection">-->
+<!--      消息中心-->
+<!--      <el-badge :value="totalMsgNum">-->
+<!--      </el-badge>-->
+<!--    </el-menu-item>-->
           <el-menu-item index="5" style="margin-left: 0rem; font-size: large"
                         v-if="admin"  @click="gotoUpload">上传课程</el-menu-item>
           <el-menu-item index="6" style="margin-left: 0rem; font-size: large"
@@ -131,12 +131,12 @@
           <el-popover
               placement="top-start"
               trigger="hover"
-              style="margin-right: 10px">
+              style="margin-right: 10px;">
             <div class="text item">
               <div style="width: 200px; height: 50px; margin-top: -10px">
                 <el-row class="demo-avatar demo-basic">
-                  <el-col :span="16" :offset="1">
-                    <h2 style="margin-top: 15px;margin-bottom: 10px">{{ personName }}</h2>
+                  <el-col :offset="1">
+                    {{ personName }}
                   </el-col>
                 </el-row>
               </div>
@@ -240,12 +240,13 @@ export default {
     // 课程广场
     gotoDoor() {
       // fixme: for debug
-      this.$router.push({
-        path: '/searching',
-        query: {
-          input: 'java'
-        }
-      })
+      this.$message.success('开发中，敬请期待')
+      // this.$router.push({
+      //   path: '/searching',
+      //   query: {
+      //     input: 'java'
+      //   }
+      // })
     },
     gotoMsgCollection() {
       this.$router.push('/messageNav/privacyMsg')
@@ -276,7 +277,9 @@ export default {
     },
     // 论坛(帖子广场
     gotoBlog() {
-      this.$router.push('/BlogDashboard/BlogDesktop')
+      // fixme: for debug
+      this.$message.success('开发中，敬请期待')
+      // this.$router.push('/BlogDashboard')
     },
     // 上传课程
     gotoUpload() {

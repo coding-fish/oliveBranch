@@ -25,7 +25,7 @@
             <main>
               <section>
                 <div class="menu menu--salal">
-                  <router-link to="/BlogDashboard/BlogDesktop" class="menu__item" active-class="">
+                  <router-link to="/BlogDesktop" class="menu__item" active-class="">
                     <span class="menu__item-name">帖子广场</span>
                   </router-link>
                   <router-link to="/BlogDashboard/BlogMyBlog" class="menu__item" active-class="">
@@ -103,15 +103,17 @@ export default {
       console.log(key, keyPath);
     },
     createblog() {
-      //获取用户的帖子论坛大致信息
+      // 先生成一个帖子id，然后跳转到编辑界面
       this.$axios.post('/apis/blog/createblog',
           {
             type: 1
           },
           {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
           .then(res => {
-            //        console.log(res);
-            this.$router.push({path: "/BlogEdit/" + this.id + "/" + res.data.blogid})
+            this.$router.push({
+              path: "/BlogEdit",
+              query: {blogid: res.data.blogid}
+            })
           })
     }
   }
