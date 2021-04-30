@@ -14,7 +14,7 @@
             Email:  hgtttttt@qq.com<br/>
           </span>
           <span><br></span>
-          <span>©2021 橄榄支实践队</span>
+          <span>©2021 橄榄支实践队 <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2021005536号</a></span>
         </div>
       </el-col>
       <el-col span="1"></el-col>

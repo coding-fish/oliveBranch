@@ -365,7 +365,7 @@ export default {
     uploadImg(file) {
       this.$message.success('图片上传成功')
       this.uploadFile = file;
-      // console.log(file)
+      console.log(file)
       // this.$refs.fileUpload.submit();
       this.showCropper = false;
       this.appForm.image = this.uploadFile

@@ -28,6 +28,8 @@
                         v-if="admin"  @click="gotoUpload">上传课程</el-menu-item>
           <el-menu-item index="6" style="margin-left: 0rem; font-size: large"
                         v-if="admin"  @click="gotoTeamInfo">团队信息</el-menu-item>
+          <el-menu-item index="7" style="margin-left: 0rem; font-size: large"
+                        @click="gotoAbout">关于我们</el-menu-item>
 <!--          <el-submenu index="7" style="margin-left: 0rem;font-size: large" v-show="admin">-->
 <!--            <template slot="title" style="font-size: large">后台管理</template>-->
 <!--            <el-menu-item index="7-1" @click="gotoReported">处理举报</el-menu-item>-->
@@ -258,6 +260,10 @@ export default {
           teamid: this.$store.state.teamId
         }
       })
+    },
+    gotoAbout() {
+      // fixme: for debug
+      this.$message.success('开发中，敬请期待')
     },
     gotoMyinfo() {
       this.$router.push('/information')

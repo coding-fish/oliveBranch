@@ -153,7 +153,10 @@ export default {
                     this.course.picture = res.data.data.picture
                     this.course.count = res.data.data.count
                     if (res.data.data.link) {
-                      this.course.link = 'http://' + res.data.data.link// fixme:默认都是http协议
+                      var str = res.data.data.link
+                      if (str.substr(0,4) !== "http")
+                        this.course.link = "http://"
+                      this.course.link += res.data.data.link// fixme:默认都是http协议
                     } else {
                       this.course.link = ''
                     }
@@ -255,8 +258,7 @@ body {
 .el-row {
   margin-bottom: 20px;
 
-&
-:last-child {
+  &:last-child {
   margin-bottom: 0;
 }
 
